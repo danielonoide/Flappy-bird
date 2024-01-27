@@ -6,7 +6,6 @@
 
 [node name="pipes_set" type="Node2D"]
 script = ExtResource("1_qnter")
-pipes_num = 4
 separation = 300
 
 [node name="SpawnPipe" type="Area2D" parent="."]

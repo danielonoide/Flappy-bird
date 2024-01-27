@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://drom7ys3xj5re"]
+[gd_scene load_steps=13 format=3 uid="uid://drom7ys3xj5re"]
 
 [ext_resource type="Texture2D" uid="uid://bplpepwhix8c0" path="res://sprites/background.jpg" id="1_i0ptl"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_ovj8j"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="4_p3evi"]
 [ext_resource type="AudioStream" uid="uid://hada8vmwuf8j" path="res://audio_tracks/short-success-sound-glockenspiel-treasure-video-game-6346.mp3" id="5_lop5v"]
 [ext_resource type="Texture2D" uid="uid://dxc5ye8pi8li3" path="res://sprites/button-309040_640.png" id="6_hypbi"]
+[ext_resource type="Texture2D" uid="uid://bygcviihx0gfg" path="res://sprites/SoundIcon.png" id="7_b7w4j"]
+[ext_resource type="Texture2D" uid="uid://m3iuiuftbads" path="res://sprites/MuteIcon.png" id="8_dapht"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_c2xa3"]
 b = Vector2(0, 1080)
@@ -86,7 +88,7 @@ horizontal_alignment = 1
 shape = SubResource("SegmentShape2D_c2xa3")
 
 [node name="PipeRemover" type="Area2D" parent="."]
-position = Vector2(-1920, 0)
+position = Vector2(-3000, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PipeRemover"]
 shape = SubResource("SegmentShape2D_2ui6o")
@@ -111,9 +113,21 @@ offset_bottom = 614.0
 scale = Vector2(0.3, 0.3)
 texture_normal = ExtResource("6_hypbi")
 
+[node name="MuteBTN" type="TextureButton" parent="."]
+process_mode = 3
+offset_left = 25.0
+offset_top = 20.0
+offset_right = 665.0
+offset_bottom = 582.0
+scale = Vector2(0.21, 0.21)
+toggle_mode = true
+texture_normal = ExtResource("7_b7w4j")
+texture_pressed = ExtResource("8_dapht")
+
 [connection signal="pressed" from="PauseMenu/RestartBTN" to="PauseMenu" method="_on_restart_btn_pressed"]
 [connection signal="pressed" from="PauseMenu/ExitBTN" to="PauseMenu" method="_on_exit_btn_pressed"]
 [connection signal="area_entered" from="PipeSpawner" to="." method="_on_pipe_spawner_area_entered"]
 [connection signal="area_entered" from="PipeRemover" to="." method="_on_pipe_remover_area_entered"]
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]
 [connection signal="pressed" from="PauseButton" to="PauseMenu" method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MuteBTN" to="." method="_on_mute_btn_pressed"]

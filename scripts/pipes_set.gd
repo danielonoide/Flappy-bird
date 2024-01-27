@@ -5,17 +5,17 @@ class_name PipeSet
 const MIN_PIPE_NUM = 2
 const MAX_PIPE_NUM = 4
 
-const MIN_SEPARATION = 100  #85 minimum
-const MAX_SEPARATION = 400
 
 const PIPES_SCENE = preload("res://scenes/pipes.tscn")
 
-@export_range(MIN_PIPE_NUM, MAX_PIPE_NUM) var pipes_num : int = 3 
 @export_range(MIN_SEPARATION, MAX_SEPARATION) var separation: int = 100
 
 const SEPARATION_OFFSET = 180
+const MIN_SEPARATION = 135 + SEPARATION_OFFSET  #85 minimum
+const MAX_SEPARATION = 400
+
 const INITIAL_POSITION_X = 120  #53 minimum
-const FINAL_POSITION_X = 1821
+const FINAL_POSITION_X = 2500 #1821
 const MIN_HEIGHT = 730
 const MAX_HEIGHT = 345
 
@@ -32,14 +32,11 @@ func _ready():
 	SignalManager.player_death.connect(_on_player_death)
 	
 	var random_generator = RandomNumberGenerator.new()
-	var x = INITIAL_POSITION_X
+	var x = 0 #INITIAL_POSITION_X
 
-	for i in range(pipes_num):
+	while x <= FINAL_POSITION_X:
 		var new_height = random_generator.randi_range(MAX_HEIGHT, MIN_HEIGHT)
 		var new_position : Vector2 = Vector2(x, new_height)
-
-		if new_position.x >= FINAL_POSITION_X:
-			break
 
 		var new_pipe_separation = random_generator.randi_range(MAX_PIPE_SEPARATION, MIN_PIPE_SEPARATION)
 		var pipe_pair = PIPES_SCENE.instantiate()
@@ -48,7 +45,7 @@ func _ready():
 		add_child(pipe_pair)
 		Global.last_pipe_pos = new_position
 
-		x = x+separation+SEPARATION_OFFSET
+		x = x+separation
 			
 		
 func _physics_process(delta):

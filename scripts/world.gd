@@ -12,11 +12,13 @@ const PIPE_SET_POS : Vector2 = Vector2(1920, 0)
 
 var points = 0
 
-var pipe_separation_offset = 0
+var pipe_separation_offset = 0  #ajuste para separar más mientras más velocidad
+var master_bus = AudioServer.get_bus_index("Master")
 
 func _ready():	
 	SignalManager.pipe_passed.connect(add_point)
 	SignalManager.player_death.connect(_on_player_death)
+	$MuteBTN.button_pressed = AudioServer.is_bus_mute(master_bus)
 	spawn_pipes()
 
 
@@ -38,7 +40,7 @@ func spawn_pipes():
 	var random_generator = RandomNumberGenerator.new()
 	
 	#var pipes_num = random_generator.randi_range(PipeSet.MIN_PIPE_NUM, PipeSet.MAX_PIPE_NUM)
-	var pipes_num = 4
+	#var pipes_num = 4
 	pipe_separation_offset = (Global.pipes_speed - PipeSet.INITIAL_SPEED) / 2
 	#print("PIPE SET separation: ", PipeSet.MIN_SEPARATION + pipe_separation_offset)
 	var separation = random_generator.randi_range(PipeSet.MIN_SEPARATION + pipe_separation_offset, PipeSet.MAX_SEPARATION)
@@ -48,11 +50,11 @@ func spawn_pipes():
 	if Global.last_pipe_pos == Vector2.ZERO:
 		pipe_set_pos_x = PIPE_SET_POS.x
 	else:
-		pipe_set_pos_x = random_generator.randi_range(Global.last_pipe_pos.x+PipeSet.MIN_SEPARATION, Global.last_pipe_pos.x+PipeSet.MAX_SEPARATION) 
+		pipe_set_pos_x = random_generator.randi_range(Global.last_pipe_pos.x+PipeSet.MIN_SEPARATION+pipe_separation_offset, Global.last_pipe_pos.x+PipeSet.MAX_SEPARATION) 
 	
 	pipe_set.position = Vector2(pipe_set_pos_x, 0)
 	pipe_set.separation = separation
-	pipe_set.pipes_num = pipes_num
+	#pipe_set.pipes_num = pipes_num
 
 	call_deferred("add_child", pipe_set)
 	"""
@@ -79,3 +81,5 @@ func _on_player_death():
 		Global.save_points()
 
 
+func _on_mute_btn_pressed():
+	AudioServer.set_bus_mute(master_bus, not AudioServer.is_bus_mute(master_bus))
