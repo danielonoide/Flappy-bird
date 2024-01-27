@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bb5qwe5eobeeb"]
+
+[ext_resource type="Script" path="res://scripts/pipes_set.gd" id="1_qnter"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nsekc"]
+
+[node name="pipes_set" type="Node2D"]
+script = ExtResource("1_qnter")
+pipes_num = 4
+separation = 300
+
+[node name="SpawnPipe" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnPipe"]
+shape = SubResource("CircleShape2D_nsekc")

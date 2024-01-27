@@ -1,0 +1,119 @@
+[gd_scene load_steps=11 format=3 uid="uid://drom7ys3xj5re"]
+
+[ext_resource type="Texture2D" uid="uid://bplpepwhix8c0" path="res://sprites/background.jpg" id="1_i0ptl"]
+[ext_resource type="Script" path="res://scripts/world.gd" id="1_ovj8j"]
+[ext_resource type="PackedScene" uid="uid://dtsyiwxcwosae" path="res://scenes/bird.tscn" id="2_s6l8n"]
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="4_p3evi"]
+[ext_resource type="AudioStream" uid="uid://hada8vmwuf8j" path="res://audio_tracks/short-success-sound-glockenspiel-treasure-video-game-6346.mp3" id="5_lop5v"]
+[ext_resource type="Texture2D" uid="uid://dxc5ye8pi8li3" path="res://sprites/button-309040_640.png" id="6_hypbi"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_c2xa3"]
+b = Vector2(0, 1080)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_2ui6o"]
+b = Vector2(0, 1080)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_r7wvs"]
+a = Vector2(0, 1080)
+b = Vector2(1920, 1080)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_55yys"]
+b = Vector2(1920, 10)
+
+[node name="world" type="Node2D"]
+script = ExtResource("1_ovj8j")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+offset_top = 9.975
+offset_right = 1918.0
+offset_bottom = 146.975
+theme_override_font_sizes/font_size = 100
+text = "0"
+horizontal_alignment = 1
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+offset_right = 1920.0
+offset_bottom = 1459.0
+texture = ExtResource("1_i0ptl")
+
+[node name="Bird" parent="." instance=ExtResource("2_s6l8n")]
+position = Vector2(357, 583)
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+process_mode = 3
+visible = false
+script = ExtResource("4_p3evi")
+
+[node name="RestartBTN" type="Button" parent="PauseMenu"]
+offset_left = 547.0
+offset_top = 461.0
+offset_right = 1414.0
+offset_bottom = 592.0
+theme_override_font_sizes/font_size = 100
+text = "Reiniciar"
+
+[node name="ExitBTN" type="Button" parent="PauseMenu"]
+offset_left = 549.0
+offset_top = 637.0
+offset_right = 1416.0
+offset_bottom = 782.0
+theme_override_font_sizes/font_size = 100
+text = "Salir"
+
+[node name="MaxPointsLabel" type="Label" parent="PauseMenu"]
+offset_right = 386.0
+offset_bottom = 91.0
+theme_override_font_sizes/font_size = 66
+text = "Max points: "
+
+[node name="Label" type="Label" parent="PauseMenu"]
+offset_left = 3.0
+offset_top = 9.0
+offset_right = 1919.0
+offset_bottom = 418.0
+theme_override_font_sizes/font_size = 300
+text = "Pausa"
+horizontal_alignment = 1
+
+[node name="PipeSpawner" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PipeSpawner"]
+shape = SubResource("SegmentShape2D_c2xa3")
+
+[node name="PipeRemover" type="Area2D" parent="."]
+position = Vector2(-1920, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PipeRemover"]
+shape = SubResource("SegmentShape2D_2ui6o")
+
+[node name="DeathZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+shape = SubResource("SegmentShape2D_r7wvs")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="DeathZone"]
+shape = SubResource("SegmentShape2D_55yys")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_lop5v")
+
+[node name="PauseButton" type="TextureButton" parent="."]
+process_mode = 3
+offset_left = 1724.0
+offset_top = 5.0
+offset_right = 2364.0
+offset_bottom = 614.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("6_hypbi")
+
+[connection signal="pressed" from="PauseMenu/RestartBTN" to="PauseMenu" method="_on_restart_btn_pressed"]
+[connection signal="pressed" from="PauseMenu/ExitBTN" to="PauseMenu" method="_on_exit_btn_pressed"]
+[connection signal="area_entered" from="PipeSpawner" to="." method="_on_pipe_spawner_area_entered"]
+[connection signal="area_entered" from="PipeRemover" to="." method="_on_pipe_remover_area_entered"]
+[connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]
+[connection signal="pressed" from="PauseButton" to="PauseMenu" method="_on_pause_button_pressed"]
