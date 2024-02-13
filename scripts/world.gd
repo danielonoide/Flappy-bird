@@ -5,7 +5,7 @@ class_name World
 
 const PIPE_SET_SCENE = preload("res://scenes/pipes_set.tscn")
 
-const PIPE_SET_POS : Vector2 = Vector2(1920, 0)
+const PIPE_SET_POS : Vector2 = Vector2(900, 0) #Vector2(1920, 0)
 
 @onready var points_label : Label = $%Label
 @onready var success_sound : AudioStreamPlayer = $AudioStreamPlayer
@@ -19,7 +19,9 @@ func _ready():
 	SignalManager.pipe_passed.connect(add_point)
 	SignalManager.player_death.connect(_on_player_death)
 	$MuteBTN.button_pressed = AudioServer.is_bus_mute(master_bus)
+	Global.last_pipe_pos = Vector2.ZERO	
 	spawn_pipes()
+	
 
 
 func _on_pipe_spawner_area_entered(area):
@@ -37,20 +39,19 @@ func _on_death_zone_body_entered(body):
 		
 
 func spawn_pipes():
-	var random_generator = RandomNumberGenerator.new()
 	
 	#var pipes_num = random_generator.randi_range(PipeSet.MIN_PIPE_NUM, PipeSet.MAX_PIPE_NUM)
 	#var pipes_num = 4
 	pipe_separation_offset = (Global.pipes_speed - PipeSet.INITIAL_SPEED) / 2
 	#print("PIPE SET separation: ", PipeSet.MIN_SEPARATION + pipe_separation_offset)
-	var separation = random_generator.randi_range(PipeSet.MIN_SEPARATION + pipe_separation_offset, PipeSet.MAX_SEPARATION)
+	var separation = randi_range(PipeSet.MIN_SEPARATION + pipe_separation_offset, PipeSet.MAX_SEPARATION)
 
 	var pipe_set = PIPE_SET_SCENE.instantiate()
 	var pipe_set_pos_x : float
 	if Global.last_pipe_pos == Vector2.ZERO:
 		pipe_set_pos_x = PIPE_SET_POS.x
 	else:
-		pipe_set_pos_x = random_generator.randi_range(Global.last_pipe_pos.x+PipeSet.MIN_SEPARATION+pipe_separation_offset, Global.last_pipe_pos.x+PipeSet.MAX_SEPARATION) 
+		pipe_set_pos_x = randi_range(Global.last_pipe_pos.x+PipeSet.MIN_SEPARATION+pipe_separation_offset, Global.last_pipe_pos.x+PipeSet.MAX_SEPARATION) 
 	
 	pipe_set.position = Vector2(pipe_set_pos_x, 0)
 	pipe_set.separation = separation

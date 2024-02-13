@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var label : Label = $Label
 @onready var max_points_label : Label = $MaxPointsLabel
+@onready var counter_label : Label = $"../CounterLabel"
 
 const DYING_TEXT = "You died"
 
@@ -22,7 +23,17 @@ func change_pause_state(state : bool):
 	
 	paused = state
 	visible = state
+	
+	if !paused:
+		counter_label.visible = true
+		for i in range(3, 0, -1): #empieza en 3, termina en 1 (es exclusive) y disminuye en -1
+			counter_label.text = str(i)
+			await get_tree().create_timer(1).timeout
+		
+		counter_label.visible = false
+	
 	get_tree().paused = state
+	
 
 	if state: 
 		max_points_label.text = "Max points: " + str(Global.max_points)
