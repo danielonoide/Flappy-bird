@@ -3,6 +3,8 @@ extends CanvasLayer
 @onready var label : Label = $Label
 @onready var max_points_label : Label = $MaxPointsLabel
 @onready var counter_label : Label = $"../CounterLabel"
+@onready var pause_button : TextureButton = $"../PauseButton"
+var pause_disabled = false
 
 const DYING_TEXT = "You died"
 
@@ -13,7 +15,7 @@ func _ready():
 
 
 func _input(event):	
-	if event.is_action_pressed(("pause")):
+	if event.is_action_pressed(("pause")) and !pause_disabled:
 		change_pause_state(!paused)
 
 
@@ -23,6 +25,8 @@ func change_pause_state(state : bool):
 	
 	paused = state
 	visible = state
+	pause_disabled = true
+	pause_button.disabled = true
 	
 	if !paused:
 		counter_label.visible = true
@@ -32,6 +36,8 @@ func change_pause_state(state : bool):
 		
 		counter_label.visible = false
 	
+	pause_button.disabled = false
+	pause_disabled = false
 	get_tree().paused = state
 	
 

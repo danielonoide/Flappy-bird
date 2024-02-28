@@ -1,14 +1,14 @@
 [gd_scene load_steps=14 format=3 uid="uid://drom7ys3xj5re"]
 
-[ext_resource type="Texture2D" uid="uid://bplpepwhix8c0" path="res://sprites/background.jpg" id="1_i0ptl"]
+[ext_resource type="Texture2D" uid="uid://bplpepwhix8c0" path="res://assets/sprites/background.jpg" id="1_i0ptl"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_ovj8j"]
 [ext_resource type="PackedScene" uid="uid://dtsyiwxcwosae" path="res://scenes/bird.tscn" id="2_s6l8n"]
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="4_p3evi"]
-[ext_resource type="AudioStream" uid="uid://hada8vmwuf8j" path="res://audio_tracks/success_sound.mp3" id="5_lop5v"]
-[ext_resource type="Texture2D" uid="uid://dxc5ye8pi8li3" path="res://sprites/pause_btn.png" id="6_hypbi"]
-[ext_resource type="Texture2D" uid="uid://cicjmbcjng6ly" path="res://sprites/unpause_btn.png" id="7_1i21s"]
-[ext_resource type="Texture2D" uid="uid://bygcviihx0gfg" path="res://sprites/SoundIcon.png" id="7_b7w4j"]
-[ext_resource type="Texture2D" uid="uid://m3iuiuftbads" path="res://sprites/MuteIcon.png" id="8_dapht"]
+[ext_resource type="AudioStream" uid="uid://hada8vmwuf8j" path="res://assets/audio_tracks/success_sound.mp3" id="5_lop5v"]
+[ext_resource type="Texture2D" uid="uid://dxc5ye8pi8li3" path="res://assets/sprites/pause_btn.png" id="6_hypbi"]
+[ext_resource type="Texture2D" uid="uid://cicjmbcjng6ly" path="res://assets/sprites/unpause_btn.png" id="7_1i21s"]
+[ext_resource type="Texture2D" uid="uid://bygcviihx0gfg" path="res://assets/sprites/SoundIcon.png" id="7_b7w4j"]
+[ext_resource type="Texture2D" uid="uid://m3iuiuftbads" path="res://assets/sprites/MuteIcon.png" id="8_dapht"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_c2xa3"]
 b = Vector2(0, 1080)
